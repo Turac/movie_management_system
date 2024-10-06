@@ -4,19 +4,20 @@ import { AuthController } from './auth.controller';
 import { UserModule } from '../user/user.module';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
-import { JwtStrategy, secretKey } from './jwt.strategy';
 import { UserService } from 'src/user/user.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'src/user/entities/user.entity';
-import { LocalStrategy } from './local.strategy';
+import { LocalStrategy } from './strategies/local.strategy';
+import { jwtOptions } from 'src/utils/constants';
+import { JwtStrategy } from './strategies/jwt.strategy';
 
 @Module({
   imports: [
     UserModule,
     PassportModule,
     JwtModule.register({
-      secret: secretKey, //TODO: should not be hardcoded, put in env file
-      signOptions: { expiresIn: '1h' }, //TODO: should not be hardcoded put in env file
+      secret: jwtOptions.secretKey,
+      signOptions: { expiresIn: jwtOptions.expireIn },
     }),
     TypeOrmModule.forFeature([User]),
   ],

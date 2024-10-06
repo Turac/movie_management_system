@@ -1,4 +1,4 @@
-import { NotFoundException } from '@nestjs/common';
+import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/user/entities/user.entity';
 import { Repository } from 'typeorm';
@@ -28,15 +28,19 @@ export class UserService {
   }
 
   async createUser(createUserDto: CreateUserDto) {
-    const newUser = await this.userRepository.create(createUserDto);
-    await this.userRepository.save({
-      username: createUserDto.username,
-      password: createUserDto.password,
-      age: createUserDto.age,
-      role: createUserDto.role,
-      createdDate: new Date(),
-    });
-    return newUser;
+    try {
+      const savedUser = await this.userRepository.save({
+        username: createUserDto.username,
+        password: createUserDto.password,
+        age: createUserDto.age,
+        role: createUserDto.role,
+        createdDate: new Date(),
+      });
+      if (savedUser) return savedUser;
+      throw new BadRequestException('User could not be registered');
+    } catch (e) {
+      throw new BadRequestException('User could not be registered');
+    }
   }
 
   async deleteById(id: number) {
