@@ -14,4 +14,7 @@ export class Movie {
 
   @OneToMany(() => MovieSession, session => session.movie)
   sessions: MovieSession[];
+
+  @Column({ nullable: true })
+  deletedAt: Date;
 }

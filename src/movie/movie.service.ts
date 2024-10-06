@@ -1,7 +1,7 @@
 // movie.service.ts
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { IsNull, Repository } from 'typeorm';
 import { Movie } from './entities/movie.entity';
 import { CreateMovieDto } from './movie.dto';
 import { MovieSession } from './entities/session.entity';
@@ -27,7 +27,10 @@ export class MovieService {
   }
 
   async findAllMovies(): Promise<Movie[]> {
-    return this.movieRepository.find({ relations: ['sessions'] });
+    return this.movieRepository.find({
+      where: { deletedAt: null },
+      relations: ['sessions'],
+    });
   }
 
   async updateMovie(
@@ -40,7 +43,12 @@ export class MovieService {
     });
   }
 
-  async deleteMovie(id: number): Promise<void> {
-    await this.movieRepository.delete(id);
+  async softDeleteMovie(id: number): Promise<void> {
+    //decided to be softDelete
+    await this.movieSessionRepository.update(
+      { movie: { id } },
+      { deletedAt: new Date() },
+    );
+    await this.movieRepository.update(id, { deletedAt: new Date() });
   }
 }

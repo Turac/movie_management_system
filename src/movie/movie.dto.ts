@@ -5,7 +5,7 @@ import {
   IsArray,
   IsEnum,
 } from 'class-validator';
-import { MovieSessionTimeSlot } from './entities/session.entity';
+import { MovieSessionTimeSlot } from 'src/utils/enums';
 
 export class CreateMovieDto {
   @IsString()
@@ -13,9 +13,11 @@ export class CreateMovieDto {
   name: string;
 
   @IsNumber()
+  @IsNotEmpty()
   ageRestriction: number;
 
   @IsArray()
+  @IsNotEmpty()
   sessions: SessionDto[];
 }
 
@@ -31,8 +33,11 @@ export class SessionDto {
 }
 
 export class UpdateMovieDto {
-  //TODO: update part should be comprehensive
   @IsString()
   @IsNotEmpty()
   name: string;
+
+  @IsNumber()
+  @IsNotEmpty()
+  ageRestriction: number;
 }

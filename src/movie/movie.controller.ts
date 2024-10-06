@@ -45,6 +45,6 @@ export class MovieController {
   @Roles(UserRole.managaer)
   @UseGuards(JwtAuthGuard, RolesGuard)
   deleteMovie(@Param('id') id: number) {
-    return this.movieService.deleteMovie(id);
+    return this.movieService.softDeleteMovie(id);
   }
 }
