@@ -10,11 +10,6 @@ export class UserService {
     private userRepository: Repository<User>,
   ) {}
 
-  async getAllUsers() {
-    const users = this.userRepository.find();
-    return users;
-  }
-
   async getUserById(id: number) {
     const user = await this.userRepository.findOne({
       where: {
@@ -41,20 +36,6 @@ export class UserService {
     } catch (e) {
       throw new BadRequestException('User could not be registered');
     }
-  }
-
-  async deleteById(id: number) {
-    const user = await this.userRepository.findOne({
-      where: {
-        id: id,
-      },
-    });
-    if (!user) {
-      return null;
-    }
-
-    await this.userRepository.remove(user);
-    return user;
   }
 
   async getUserByUsername(username: string) {

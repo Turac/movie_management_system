@@ -15,7 +15,7 @@ export class User {
   username: string;
 
   @Column()
-  password: string; //TODO: Make password secret - add hash
+  password: string; 
 
   @Column()
   age: number;
