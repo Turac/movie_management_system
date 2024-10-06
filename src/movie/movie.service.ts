@@ -4,21 +4,30 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Movie } from './entities/movie.entity';
 import { CreateMovieDto } from './movie.dto';
+import { MovieSession } from './entities/session.entity';
 
 @Injectable()
 export class MovieService {
   constructor(
     @InjectRepository(Movie)
     private readonly movieRepository: Repository<Movie>,
+    @InjectRepository(MovieSession)
+    private readonly movieSessionRepository: Repository<MovieSession>,
   ) {}
 
   async createMovie(createMovieDto: CreateMovieDto): Promise<Movie> {
     const movie = this.movieRepository.create(createMovieDto);
-    return this.movieRepository.save(movie);
+    this.movieRepository.save(movie);
+    const session = this.movieSessionRepository.create(createMovieDto.sessions);
+    session.map(currentSession => {
+      currentSession.movie = movie;
+    });
+    this.movieSessionRepository.save(session);
+    return movie;
   }
 
   async findAllMovies(): Promise<Movie[]> {
-    return this.movieRepository.find({});
+    return this.movieRepository.find({ relations: ['sessions'] });
   }
 
   async updateMovie(

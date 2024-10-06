@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { MovieSession } from './session.entity';
 
 @Entity()
 export class Movie {
@@ -11,12 +12,6 @@ export class Movie {
   @Column()
   ageRestriction: number;
 
-  @Column('json')
-  sessions: string[];
-}
-
-export class Session {
-  date: string;
-  timeSlot: string;
-  roomNumber: number;
+  @OneToMany(() => MovieSession, session => session.movie)
+  sessions: MovieSession[];
 }

@@ -1,4 +1,11 @@
-import { IsNotEmpty, IsNumber, IsString, IsArray } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+  IsArray,
+  IsEnum,
+} from 'class-validator';
+import { MovieSessionTimeSlot } from './entities/session.entity';
 
 export class CreateMovieDto {
   @IsString()
@@ -9,21 +16,22 @@ export class CreateMovieDto {
   ageRestriction: number;
 
   @IsArray()
-  sessions: string[];
+  sessions: SessionDto[];
 }
 
 export class SessionDto {
   @IsString()
-  date: string;
+  date: Date;
 
-  @IsString()
-  timeSlot: string;
+  @IsEnum(MovieSessionTimeSlot)
+  timeSlot: MovieSessionTimeSlot;
 
-  @IsString()
-  roomNumber: string;
+  @IsNumber()
+  roomNumber: number;
 }
 
 export class UpdateMovieDto {
+  //TODO: update part should be comprehensive
   @IsString()
   @IsNotEmpty()
   name: string;

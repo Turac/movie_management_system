@@ -6,6 +6,7 @@ import { drSourceOptions } from './dataSource';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { MovieModule } from './movie/movie.module';
+import { TicketModule } from './ticket/ticket.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { MovieModule } from './movie/movie.module';
     AuthModule,
     UserModule,
     MovieModule,
+    TicketModule,
   ],
   controllers: [AppController],
   providers: [AppService],
