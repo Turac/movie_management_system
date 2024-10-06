@@ -1,8 +1,8 @@
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { RegisterDto } from 'src/auth/auth.dto';
 import { User } from 'src/user/entities/user.entity';
 import { Repository } from 'typeorm';
-import { CreateUserDto } from './user.dto';
 
 export class UserService {
   constructor(
@@ -22,7 +22,7 @@ export class UserService {
     throw new NotFoundException('User not found');
   }
 
-  async createUser(createUserDto: CreateUserDto) {
+  async createUser(createUserDto: RegisterDto) {
     try {
       const savedUser = await this.userRepository.save({
         username: createUserDto.username,
@@ -39,14 +39,10 @@ export class UserService {
   }
 
   async getUserByUsername(username: string) {
-    const user = await this.userRepository.findOne({
+    return await this.userRepository.findOne({
       where: {
         username: username,
       },
     });
-    if (user) {
-      return user;
-    }
-    throw new NotFoundException('User not found');
   }
 }
