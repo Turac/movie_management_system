@@ -22,3 +22,25 @@ This project is a Movie Management System API built using Node.js and the NestJS
 - **TypeORM** for database migrations - Not completed, syncronize: true is working
 - **JWT Authentication** for securing endpoints
 - **Swagger** for API documentation
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Turac/movie_management_system.git
+   cd movie-management-system
+
+   ```
+2. Install the dependencies:
+   ```bash
+   npm install
+
+   ```
+3. Create and Setup database connection:
+   Create database in your local
+   Edit file for connection: src/dataSource.ts
+
+4. Start Application:
+   ```bash
+   npm run start
+   ```
