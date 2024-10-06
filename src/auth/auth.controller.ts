@@ -42,6 +42,7 @@ export class AuthController {
     status: 401,
     description: 'Unathorized',
   })
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async login(@Request() req, @Body() loginDto: LoginDto) {
     return this.authService.login(req.user);
   }

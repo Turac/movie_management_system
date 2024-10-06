@@ -1,7 +1,7 @@
 // movie.service.ts
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { IsNull, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Movie } from './entities/movie.entity';
 import { CreateMovieDto } from './movie.dto';
 import { MovieSession } from './entities/session.entity';
