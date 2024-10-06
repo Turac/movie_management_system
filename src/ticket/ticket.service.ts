@@ -13,15 +13,20 @@ export class TicketService {
     private userService: UserService,
   ) {}
 
-  async createTicket(createTicketDto: BuyTicketDto): Promise<Ticket> {
+  async createTicket(
+    userId: number,
+    createTicketDto: BuyTicketDto,
+  ): Promise<Partial<Ticket>> {
     //Check user
-    const user = await this.userService.getUserById(createTicketDto.userId);
+    const buyer = await this.userService.getUserById(userId);
 
-    console.log(createTicketDto);
     const ticket = this.ticketRepository.create(createTicketDto);
     ticket.purchaseDate = new Date();
-    ticket.user = user;
-    return this.ticketRepository.save(ticket);
+    ticket.user = buyer;
+    const savedTicket = await this.ticketRepository.save(ticket); //password should be not be mapped
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { user, ...result } = savedTicket;
+    return result;
   }
 
   async getTicketById(id: number): Promise<Ticket> {

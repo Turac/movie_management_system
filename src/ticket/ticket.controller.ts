@@ -23,8 +23,12 @@ export class TicketController {
   @Roles(UserRole.customer)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Post('buy')
-  async buyTicket(@Body() buyTicket: buyTicketDto) {
-    return this.ticketService.createTicket(buyTicket);
+  async buyTicket(
+    @Body() buyTicket: buyTicketDto,
+    @Req() req: { user: JwtUserPayload },
+  ) {
+    const userId = req.user['userId'];
+    return this.ticketService.createTicket(userId, buyTicket);
   }
 
   @Roles(UserRole.customer)
